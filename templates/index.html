@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T20 Cricket Score Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-image: url("{{ url_for('static', filename='images/virat.jpg') }}"); /* Correct path to your image */
+            background-size: cover; /* Ensures the image covers the whole background */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+            background-attachment: fixed; /* Keeps the background fixed while scrolling */
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.8); /* White background with transparency */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        select, input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e7f3fe;
+            border-left: 6px solid #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>T20 Cricket Score Predictor</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label for="batting_team">Select Batting Team</label>
+                <select id="batting_team" name="batting_team" required>
+                    {% for team in teams %}
+                    <option value="{{ team }}">{{ team }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="bowling_team">Select Bowling Team</label>
+                <select id="bowling_team" name="bowling_team" required>
+                    {% for team in teams %}
+                    <option value="{{ team }}">{{ team }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="city">Select City</label>
+                <select id="city" name="city" required>
+                    {% for city in cities %}
+                    <option value="{{ city }}">{{ city }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="current_score">Current Score</label>
+                <input type="number" id="current_score" name="current_score" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="overs">Overs Done (works for over > 5)</label>
+                <input type="number" id="overs" name="overs" min="0" max="20" step="0.1" required>
+            </div>
+            <div class="form-group">
+                <label for="wickets">Wickets Out</label>
+                <input type="number" id="wickets" name="wickets" min="0" max="10" required>
+            </div>
+            <div class="form-group">
+                <label for="last_five">Runs Scored in Last 5 Overs</label>
+                <input type="number" id="last_five" name="last_five" min="0" required>
+            </div>
+            <button type="submit">Predict Score</button>
+        </form>
+        {% if predicted_score is not none %}
+        <div class="result">
+            <h2>Predicted Score: {{ predicted_score }}</h2>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
